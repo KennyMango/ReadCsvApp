@@ -58,8 +58,13 @@ public class Main {
             File[] files = dir.listFiles();
 
             // Error/Info Logging
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-            String logFilePath = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".log";
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+            String logFolder = "logs";
+            File folder = new File(logFolder);
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+            String logFilePath = logFolder + "/" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".log";
             LOGGER.setLevel(Level.INFO);
             FileHandler handler = new FileHandler(logFilePath);
             handler.setLevel(Level.INFO);
@@ -116,22 +121,22 @@ public class Main {
 
                         // Logging each update statement per line in CSV
                         int k = 0;
-                        String FinalinsertLog = "Inserted record: ";
+                        StringBuilder FinalinsertLog = new StringBuilder("Inserted record: ");
 
                         for (String value : values) {
 
                             if(k == 9){
                                 k++;
                                 String strQTY = String.valueOf(value);
-                                FinalinsertLog = FinalinsertLog + strQTY;
+                                FinalinsertLog.append(strQTY);
                                 continue;
                             }
-                            FinalinsertLog = FinalinsertLog + value;
+                            FinalinsertLog.append(value);
                             k++;
 
                         }
 
-                        LOGGER.info(FinalinsertLog);
+                        LOGGER.info(FinalinsertLog.toString());
                     }
                     LOGGER.info("All records inserted successfully. Closing DB connection..");
                     reader.close();

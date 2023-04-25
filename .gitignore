@@ -81,3 +81,10 @@ nb-configuration.xml
 ## OS X
 ##############################
 .DS_Store
+
+##############################
+## custom X
+##############################
+logs/
+*.log
+config1.properties
